@@ -3,94 +3,215 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Simular Consórcio</title>
+<title>Consórcio Honda - Revemar</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-body{margin:0;font-family:Arial,sans-serif;background:#f2f2f7;padding:20px}
-.card{background:#fff;padding:18px;border-radius:14px;box-shadow:0 6px 18px rgba(0,0,0,.1);margin-bottom:20px}
-h2{margin:0 0 10px}
-label{font-weight:600;margin-top:12px;display:block}
-input,select{width:100%;padding:12px;border-radius:10px;border:1px solid #ccc;margin-top:4px;font-size:16px}
-button{width:100%;padding:14px;background:#c8102e;border:none;margin-top:20px;border-radius:12px;font-size:18px;font-weight:700;color:#fff}
-.carousel{
-  width:100%;
-  height:220px;
-  overflow:hidden;
-  border-radius:12px;
-  position:relative;
-  background:#fff;
-}
+    /* --- CONFIGURAÇÕES GERAIS (ESTILO IGUAL AO PRIMEIRO) --- */
+    :root {
+        --honda-blue: #0044cc;
+        --honda-dark: #00102a;
+        --gold: #ffcc00;
+        --whatsapp-green: #25d366;
+    }
 
-.carousel-track{
-  display:flex;
-  width:max-content;
-  animation:scrollInfinite 18s linear infinite;
-}
+    body {
+        margin: 0;
+        font-family: 'Montserrat', sans-serif;
+        background: linear-gradient(135deg, var(--honda-dark) 0%, var(--honda-blue) 100%);
+        min-height: 100vh;
+        padding: 20px;
+        color: #333;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 
-.carousel-track img{
-  width:380px;
-  height:240px;
-  object-fit:contain;
-  background:#fff;
-  flex-shrink:0;
-}
+    .main-wrapper {
+        width: 100%;
+        max-width: 600px;
+        position: relative;
+        z-index: 1;
+    }
 
-@keyframes scrollInfinite{
-  0%{
-    transform:translateX(0);
-  }
-  100%{
-    transform:translateX(-50%);
-  }
-}
+    /* --- LOGO --- */
+    .logo-top {
+        display: block;
+        margin: 0 auto 20px auto;
+        width: clamp(120px, 35vw, 180px);
+        filter: drop-shadow(0 5px 15px rgba(0,0,0,0.6));
+    }
 
-.moto-name{text-align:center;font-weight:800;color:#c8102e}
-small{color:#777}
+    /* --- ESTILO DOS CARDS --- */
+    .card {
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(10px);
+        padding: clamp(20px, 5vw, 30px);
+        border-radius: 24px;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+        margin-bottom: 25px;
+        position: relative;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .card::after {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 6px;
+        background: linear-gradient(90deg, var(--gold), #ffaa00, var(--honda-blue));
+        border-radius: 20px 20px 0 0;
+    }
+
+    h2 {
+        margin: 10px 0 20px;
+        font-size: clamp(1.2rem, 5vw, 1.6rem);
+        text-align: center;
+        text-transform: uppercase;
+        background: linear-gradient(45deg, #002266, var(--honda-blue));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 800;
+    }
+
+    .moto-name {
+        font-weight: 800;
+        font-size: clamp(1rem, 4vw, 1.3rem);
+        margin-bottom: 25px;
+        color: white;
+        text-align: center;
+        background: linear-gradient(90deg, #003399, #005ce6);
+        padding: 12px 20px;
+        border-radius: 50px;
+        box-shadow: 0 4px 15px rgba(0, 85, 255, 0.3);
+        text-transform: uppercase;
+    }
+
+    /* --- FORMULÁRIO --- */
+    label {
+        font-weight: 700;
+        margin-top: 15px;
+        display: block;
+        font-size: 13px;
+        color: #002266;
+        text-transform: uppercase;
+    }
+
+    input, select {
+        width: 100%;
+        padding: 14px;
+        border-radius: 12px;
+        border: 2px solid #e0e6ed;
+        margin-top: 6px;
+        font-size: 16px;
+        background: #f8fafc;
+        font-family: 'Montserrat', sans-serif;
+        box-sizing: border-box;
+    }
+
+    /* Bordas laterais coloridas para ficar igual ao outro */
+    input[name="nome"] { border-left: 5px solid var(--honda-blue); }
+    input[name="cpf"] { border-left: 5px solid var(--gold); }
+    select[name="plano"] { border-left: 5px solid var(--honda-blue); }
+    input[name="parcelaIdeal"] { border-left: 5px solid var(--whatsapp-green); }
+
+    button {
+        width: 100%;
+        padding: 18px;
+        background: linear-gradient(45deg, #128c7e, var(--whatsapp-green), #128c7e);
+        background-size: 200% auto;
+        border: none;
+        margin-top: 25px;
+        border-radius: 50px;
+        font-size: 16px;
+        font-weight: 800;
+        color: white;
+        cursor: pointer;
+        text-transform: uppercase;
+        box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
+        animation: gradientMove 3s infinite alternate;
+    }
+
+    @keyframes gradientMove {
+        0% { background-position: 0% 50%; }
+        100% { background-position: 100% 50%; }
+    }
+
+    /* --- CARROSSEL --- */
+    .carousel {
+        width: 100%;
+        height: 240px;
+        overflow: hidden;
+        border-radius: 16px;
+        background: white;
+    }
+
+    .carousel-track {
+        display: flex;
+        width: max-content;
+        animation: scroll 25s linear infinite;
+    }
+
+    .carousel-track img {
+        height: 240px;
+        width: auto;
+        min-width: 300px;
+        object-fit: contain;
+        padding: 10px;
+    }
+
+    @keyframes scroll {
+        0%   { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+    }
 </style>
 </head>
-
 <body>
 
-<div class="card">
-  <h2 id="tituloMoto">Carregando...</h2>
-  <div class="carousel">
-    <div class="carousel-track" id="carouselTrack"></div>
-  </div>
-</div>
+<div class="main-wrapper">
+    <img src="https://image2url.com/r2/default/images/1772572693263-8f07cbb3-a571-44e4-8412-081a82ed80d9.blob" alt="Logo" class="logo-top">
 
-<div class="card">
-  <h2>Simulação de Consórcio</h2>
-  <p class="moto-name" id="motoEscolhida"></p>
+    <div class="card">
+        <h2 id="tituloMoto">Carregando Modelo...</h2>
+        <div class="carousel">
+            <div class="carousel-track" id="carouselTrack"></div>
+        </div>
+    </div>
 
-  <form id="consForm">
-    <label>Nome completo *</label>
-    <input name="nome" required>
+    <div class="card">
+        <h2>Simulação de Consórcio</h2>
+        <p class="moto-name" id="motoEscolhida"></p>
 
-    <label>CPF *</label>
-    <input name="cpf" required>
+        <form id="consForm">
+            <label>Nome completo *</label>
+            <input name="nome" placeholder="Digite seu nome completo" required>
 
-    <label>Plano de parcelas *</label>
-    <select name="plano" id="planoSelect" required></select>
+            <label>CPF *</label>
+            <input name="cpf" placeholder="000.000.000-00" required>
 
-    <label>Tem pressa para contemplar? *</label>
-    <select name="pressa" required>
-      <option value="">Selecione</option>
-      <option>Sim</option>
-      <option>Não</option>
-    </select>
+            <label>Plano de parcelas *</label>
+            <select name="plano" id="planoSelect" required></select>
 
-    <label>Valor de parcela ideal (R$) *</label>
-    <input type="number" name="parcelaIdeal" placeholder="Ex: 450" required>
+            <label>Tem pressa para contemplar? *</label>
+            <select name="pressa" required>
+                <option value="">Selecione uma opção</option>
+                <option>Sim, tenho pressa</option>
+                <option>Não, posso aguardar</option>
+            </select>
 
-    <input type="hidden" name="moto" id="motoInput">
-    <button>Enviar no WhatsApp</button>
-  </form>
+            <label>Valor de parcela ideal (R$) *</label>
+            <input type="number" name="parcelaIdeal" placeholder="Ex: 450" required>
+
+            <input type="hidden" name="moto" id="motoInput">
+            <button type="submit">📲 Enviar para WhatsApp</button>
+        </form>
+    </div>
 </div>
 
 <script>
 const motos = [
-
-{
+    {
   id:'BIZ125ES',
   nome:'BIZ 125 ES',
   imgs:[
@@ -256,8 +377,7 @@ const motos = [
 },
 
 {
-  id:'HONDA_ADV',
-  nome:'Honda ADV',
+  id:'HONADA_ADV', nome:'Honda ADV',
   imgs:[
     'https://www.honda.com.br/motos/sites/hda/files/2024-12/honda-adv-design.webp',
     'https://www.honda.com.br/motos/sites/hda/files/2024-12/iluminacao-full-led-honda-adv.webp',
@@ -356,62 +476,34 @@ const motos = [
 
   { id:'SAHARA300RALLY', 
    nome:'SAHARA 300 RALLY',
-  img:'https://www.honda.com.br/motos/sites/hda/files/2025-08/Imagem-Home-Sahara-300-Rally-Vermelho-Victory-Red.webp',
+  imgs:['https://www.honda.com.br/motos/sites/hda/files/2025-08/Imagem-Home-Sahara-300-Rally-Vermelho-Victory-Red.webp'],
   parcelas:{0:0}
 }
-
-
 ];
-
 
 const params = new URLSearchParams(location.search);
 const moto = motos.find(m => m.id === params.get('moto')) || motos[0];
 
-tituloMoto.innerText = moto.nome;
-motoEscolhida.innerText = moto.nome;
-motoInput.value = moto.nome;
+document.getElementById('tituloMoto').innerText = moto.nome;
+document.getElementById('motoEscolhida').innerText = moto.nome;
+document.getElementById('motoInput').value = moto.nome;
 
-/* CAROUSEL */
-const imagens = moto.imgs;
+const track = document.getElementById('carouselTrack');
+track.innerHTML = [...moto.imgs, ...moto.imgs].map(img => `<img src="${img}">`).join('');
 
-// DUPLICA PRA LOOP INFINITO REAL
-const imagensLoop = [...imagens, ...imagens];
-
-carouselTrack.innerHTML = imagensLoop
-  .map(img => `<img src="${img}">`)
-  .join('');
-
-/* PLANOS */
 const planoSelect = document.getElementById('planoSelect');
-planoSelect.innerHTML = '';
-
-if(moto.parcelas){
-  Object.entries(moto.parcelas).forEach(([p,v])=>{
+Object.entries(moto.parcelas).forEach(([p,v])=>{
     const opt=document.createElement('option');
     opt.value=p;
     opt.textContent=`${p}x de R$ ${v.toFixed(2)}`;
     planoSelect.appendChild(opt);
-  });
-}else{
-  const opt=document.createElement('option');
-  opt.value='A combinar';
-  opt.textContent='Planos a combinar';
-  planoSelect.appendChild(opt);
-}
+});
 
-/* WHATSAPP */
-consForm.addEventListener('submit',e=>{
-  e.preventDefault();
-  const d=Object.fromEntries(new FormData(consForm));
-  const msg=
-`*CONSÓRCIO HONDA*
-Moto: ${d.moto}
-Nome: ${d.nome}
-CPF: ${d.cpf}
-Plano: ${d.plano}
-Parcela ideal: R$ ${d.parcelaIdeal}
-Tem pressa: ${d.pressa}`;
-  location.href=`https://wa.me/5594991290484?text=${encodeURIComponent(msg)}`;
+document.getElementById('consForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const d = Object.fromEntries(new FormData(e.target));
+    const msg = `*SIMULAÇÃO CONSÓRCIO REVEMAR*\n\n*Moto:* ${d.moto}\n*Nome:* ${d.nome}\n*CPF:* ${d.cpf}\n*Plano:* ${d.plano}x\n*Parcela Ideal:* R$ ${d.parcelaIdeal}\n*Tem pressa:* ${d.pressa}`;
+    location.href = `https://wa.me/5594991290484?text=${encodeURIComponent(msg)}`;
 });
 </script>
 
