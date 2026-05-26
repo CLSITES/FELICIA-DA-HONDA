@@ -8,13 +8,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-    /* --- CONFIGURAÇÕES GERAIS (ESTILO IGUAL AO PRIMEIRO) --- */
+    /* --- CONFIGURAÇÕES GERAIS --- */
     :root {
-        --honda-blue: #0044cc;
-        --honda-dark: #00102a;
-        --gold: #ffcc00;
-        --whatsapp-green: #25d366;
-    }
+    --honda-blue: #ffffff; /* agora vira amarelo principal */
+    --honda-dark: #fffffF /* fundo mais quente (amarelo escuro) */
+    --gold: #ffd700; /* dourado forte */
+    --red: #ff1a1a; /* vermelho destaque */
+    --whatsapp-green: #25d366;
+}
+
 
     body {
         margin: 0;
@@ -60,7 +62,7 @@
         position: absolute;
         top: 0; left: 0; right: 0;
         height: 6px;
-        background: linear-gradient(90deg, var(--gold), #ffaa00, var(--honda-blue));
+        background: linear-gradient(90deg, #ffd700, #ffb000, #ff1a1a);
         border-radius: 20px 20px 0 0;
     }
 
@@ -69,7 +71,7 @@
         font-size: clamp(1.2rem, 5vw, 1.6rem);
         text-align: center;
         text-transform: uppercase;
-        background: linear-gradient(45deg, #002266, var(--honda-blue));
+        background: linear-gradient(45deg, #ff1a1a, #ffb000);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         font-weight: 800;
@@ -81,7 +83,7 @@
         margin-bottom: 25px;
         color: white;
         text-align: center;
-        background: linear-gradient(90deg, #003399, #005ce6);
+        background: linear-gradient(90deg, #ff1a1a, #ff6a00);
         padding: 12px 20px;
         border-radius: 50px;
         box-shadow: 0 4px 15px rgba(0, 85, 255, 0.3);
@@ -111,9 +113,9 @@
     }
 
     /* Bordas laterais coloridas para ficar igual ao outro */
-    input[name="nome"] { border-left: 5px solid var(--honda-blue); }
-    input[name="cpf"] { border-left: 5px solid var(--gold); }
-    select[name="plano"] { border-left: 5px solid var(--honda-blue); }
+   input[name="nome"] { border-left: 5px solid #ff1a1a; }
+input[name="cpf"] { border-left: 5px solid #ffd700; }
+select[name="plano"] { border-left: 5px solid #ffb000; }
     input[name="parcelaIdeal"] { border-left: 5px solid var(--whatsapp-green); }
 
     button {
@@ -170,7 +172,7 @@
 <body>
 
 <div class="main-wrapper">
-    <img src="https://image2url.com/r2/default/images/1772572693263-8f07cbb3-a571-44e4-8412-081a82ed80d9.blob" alt="Logo" class="logo-top">
+    <img src="https://www.image2url.com/r2/default/images/1779460228857-6f701fed-c991-4913-beca-427e25886962.png" alt="Logo" class="logo-top">
 
     <div class="card">
         <h2 id="tituloMoto">Carregando Modelo...</h2>
@@ -188,7 +190,8 @@
             <input name="nome" placeholder="Digite seu nome completo" required>
 
             <label>CPF *</label>
-            <input name="cpf" placeholder="000.000.000-00" required>
+            <input name="cpf" id="cpfInput" placeholder="000.000.000-00" maxlength="14" required>
+<small id="cpfErro" style="color:red; display:none;">CPF inválido</small>
 
             <label>Plano de parcelas *</label>
             <select name="plano" id="planoSelect" required></select>
@@ -200,9 +203,6 @@
                 <option>Não, posso aguardar</option>
             </select>
 
-            <label>Valor de parcela ideal (R$) *</label>
-            <input type="number" name="parcelaIdeal" placeholder="Ex: 450" required>
-
             <input type="hidden" name="moto" id="motoInput">
             <button type="submit">📲 Enviar para WhatsApp</button>
         </form>
@@ -211,7 +211,7 @@
 
 <script>
 const motos = [
-     {
+    {
   id:'BIZ125ES',
   nome:'BIZ 125 ES',
   imgs:[
@@ -401,9 +401,9 @@ const motos = [
   id:'POP110',
   nome:'POP 110i ES +10',
   imgs:[
-    'https://www.honda.com.br/motos/sites/hda/files/2024-04/Farol-Pop110iES_0.webp',
-    'https://www.honda.com.br/motos/sites/hda/files/2024-04/MODULO~1_0.jpg',
-    'https://www.honda.com.br/motos/sites/hda/files/2024-04/design-detalhes-laterais-da-pop-110i-es_0.webp'
+    'https://www.honda.com.br/motos/sites/hda/files/2026-04/Lateral.webp',
+    'https://www.honda.com.br/motos/sites/hda/files/2026-04/Design%20-%20Pop%20Azul%20TD%20CROP%201-1.webp',
+    'https://www.honda.com.br/motos/sites/hda/files/2026-04/Seguranc%CC%A7a%20-%20HONDA_POP_20268342.webp'
   ],
   parcelas:{36:457.12,48:346.98,60:281.70,80:217.49}
 },
@@ -494,17 +494,82 @@ track.innerHTML = [...moto.imgs, ...moto.imgs].map(img => `<img src="${img}">`).
 const planoSelect = document.getElementById('planoSelect');
 Object.entries(moto.parcelas).forEach(([p,v])=>{
     const opt=document.createElement('option');
-    opt.value=p;
-    opt.textContent=`${p}x de R$ ${v.toFixed(2)}`;
+    opt.value = `${p}|${v.toFixed(2)}`;
+opt.textContent = `${p}x de R$ ${v.toFixed(2)}`;
     planoSelect.appendChild(opt);
 });
 
 document.getElementById('consForm').addEventListener('submit', e => {
     e.preventDefault();
+  
     const d = Object.fromEntries(new FormData(e.target));
-    const msg = `*SIMULAÇÃO CONSÓRCIO REVEMAR*\n\n*Moto:* ${d.moto}\n*Nome:* ${d.nome}\n*CPF:* ${d.cpf}\n*Plano:* ${d.plano}x\n*Parcela Ideal:* R$ ${d.parcelaIdeal}\n*Tem pressa:* ${d.pressa}`;
+
+    const [meses, valor] = d.plano.split("|");
+
+    const msg = `*SIMULAÇÃO CONSÓRCIO REVEMAR*
+
+*Moto:* ${d.moto}
+*Nome:* ${d.nome}
+*CPF:* ${d.cpf}
+*Plano escolhido:* ${meses}x de R$ ${valor}
+*Tem pressa:* ${d.pressa}`;
+
     location.href = `https://wa.me/5594991290484?text=${encodeURIComponent(msg)}`;
 });
+
+  const cpfInput = document.getElementById("cpfInput");
+const cpfErro = document.getElementById("cpfErro");
+
+// FORMATA + VALIDA
+cpfInput.addEventListener("input", function(e){
+    let v = e.target.value.replace(/\D/g,"");
+
+    if(v.length > 3) v = v.replace(/(\d{3})(\d)/,"$1.$2");
+    if(v.length > 7) v = v.replace(/(\d{3})\.(\d{3})(\d)/,"$1.$2.$3");
+    if(v.length > 11) v = v.replace(/(\d{3})\.(\d{3})\.(\d{3})(\d)/,"$1.$2.$3-$4");
+
+    e.target.value = v;
+
+    const cpfLimpo = v.replace(/\D/g, "");
+
+    if (cpfLimpo.length === 11) {
+        if (!validarCPF(cpfLimpo)) {
+            cpfErro.style.display = "block";
+            cpfInput.style.borderColor = "red";
+        } else {
+            cpfErro.style.display = "none";
+            cpfInput.style.borderColor = "green";
+        }
+    } else {
+        cpfErro.style.display = "none";
+        cpfInput.style.borderColor = "#e0e6ed";
+    }
+});
+
+
+// FUNÇÃO VALIDAR CPF
+function validarCPF(cpf) {
+    if (cpf.length != 11 || /^(\d)\1+$/.test(cpf)) return false;
+
+    let soma = 0, resto;
+
+    for (let i = 1; i <= 9; i++)
+        soma += parseInt(cpf.substring(i-1, i)) * (11 - i);
+
+    resto = (soma * 10) % 11;
+    if (resto >= 10) resto = 0;
+    if (resto != parseInt(cpf.substring(9, 10))) return false;
+
+    soma = 0;
+    for (let i = 1; i <= 10; i++)
+        soma += parseInt(cpf.substring(i-1, i)) * (12 - i);
+
+    resto = (soma * 10) % 11;
+    if (resto >= 10) resto = 0;
+    if (resto != parseInt(cpf.substring(10, 11))) return false;
+
+    return true;
+}
 </script>
 
 </body>
